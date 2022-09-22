@@ -1,11 +1,14 @@
 const ingresos = [
-  new Ingreso("Salario", 2100),
-  new Ingreso("Venta auto", 1500),
+  new Ingreso("Salario", 3600),
+  new Ingreso("Emprendimiento", 500),
 ];
 
 const egresos = [
-  new Egreso("Renta departamento", 900),
-  new Egreso("Ropa", 400),
+  new Egreso("Alquiler Casa", 800),
+  new Egreso("Servicios", 200),
+  new Egreso("Transporte", 80),
+  new Egreso("Alimentación", 850),
+  new Egreso("Teléfono", 100)
 ];
 
 cargarApp = () => {
@@ -105,7 +108,7 @@ const crearEgresoHTML = (egreso)=>{
     <div class="elemento limpiarEstilos">
     <div class="elemento_descripcion">${egreso.descripcion}</div>
     <div class="derecha limpiarEstilos">
-    <div class="elemento_valor">${formatoMoneda(egreso.valor)}</div>
+    <div class="elemento_valor">- ${formatoMoneda(egreso.valor)}</div>
     <div class="elemento_porcentaje">${formatoPorcentaje(egreso.valor/totalEgresos())}</div>
     <div class="elemento_eliminar">
     <button class="elemento_eliminar--btn">
@@ -127,4 +130,23 @@ let eliminarEgreso =(id)=>{
     egresos.splice(indiceEliminar, 1);
     cargarCabecero();
     cargarEgresos();
+}
+
+let agregarDato= ()=>{
+    let forma = document.forms['forma'];
+    let tipo = forma['tipo'];
+    let descripcion = forma['descripcion'];
+    let valor = forma['valor'];
+    if(descripcion.value !== '' && valor.value !== ''){
+        if(tipo.value === 'ingreso'){
+            ingresos.push( new Ingreso(descripcion.value, +valor.value ));
+            cargarCabecero();
+            cargarIngresos();
+        }
+        else if(tipo.value === 'egreso'){
+            egresos.push(new Egreso(descripcion.value, +valor.value));
+            cargarCabecero();
+            cargarEgresos();
+        }
+    }
 }
